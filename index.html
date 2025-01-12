@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Incredibox BANANA - An innovative rhythm game where you create unique musical masterpieces. Join our musical banana universe and experience the joy of interactive beat-making!">
+    <meta name="keywords" content="Incredibox, BANANA, rhythm game, music maker, beat creator, interactive music, banana rhythm, musical game">
+    
+    <!-- Open Graph tags -->
+    <meta property="og:title" content="Incredibox BANANA - Creative Music Rhythm Game">
+    <meta property="og:description" content="Create your unique beats in a fun banana-themed musical universe! Join thousands of music enthusiasts in this interactive rhythm experience.">
+    <meta property="og:type" content="website">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64,AAABAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA/4QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAERERERERERERAAAAAAAAERAQAAAAAAEBERAAAAAAABEREAAAAAAAEREQAAAAAAAREREAAAAAAAERERAAAAAAAAEREQAAAAAAABEREAAAAAAAARERAAAAAAAAEREQAAAAAAAAEREAAAAAAAAAERAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">
+    
+    <title>Incredibox BANANA</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #fff7e6;
+            scroll-behavior: smooth;
+        }
+
+        .header {
+            background-color: #ffdb4d;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 3em;
+            font-weight: bold;
+            color: #664400;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            font-family: 'Comic Sans MS', cursive;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .logo:hover {
+            transform: scale(1.02);
+        }
+
+        .logo::before {
+            content: "🐵";
+            margin-right: 10px;
+        }
+
+        .game-container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px 40px;
+            margin-top: 100px;
+        }
+
+        .game-frame {
+            width: 100%;
+            height: 600px;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+
+        .content-section {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 30px 40px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+
+        .content-section h1 {
+            color: #664400;
+            font-size: 2em;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .content-section h2 {
+            color: #996600;
+            font-size: 1.5em;
+            margin-top: 25px;
+        }
+
+        .content-section p {
+            color: #333;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .content-section ul {
+            color: #333;
+            line-height: 1.8;
+            margin: 0 auto 25px;
+            max-width: 650px;
+            padding-left: 30px;
+        }
+
+        .content-section li {
+            margin-bottom: 10px;
+        }
+
+        .footer {
+            background-color: #ffdb4d;
+            color: #664400;
+            text-align: center;
+            padding: 10px;
+            position: relative;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 2em;
+            }
+            
+            .game-frame {
+                height: 400px;
+            }
+
+            .game-container,
+            .content-section {
+                padding: 15px 20px;
+            }
+            
+            .content-section h1 {
+                font-size: 1.5em;
+            }
+            
+            .content-section h2 {
+                font-size: 1.2em;
+            }
+
+            .game-container {
+                margin-top: 80px;
+            }
+        }
+
+        /* 添加loading样式 */
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #fff7e6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .loading::after {
+            content: "🙈";
+            font-size: 40px;
+            animation: monkeyDance 1s infinite ease-in-out;
+        }
+
+        @keyframes monkeyDance {
+            0% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.2) rotate(15deg); }
+            100% { transform: scale(1) rotate(0deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading 指示器 -->
+    <div class="loading" id="loading"></div>
+
+    <div class="header">
+        <div class="logo" onclick="scrollToTop()">Incredibox BANANA</div>
+    </div>
+
+    <div class="game-container">
+        <iframe class="game-frame" 
+                src="https://turbowarp.org/1110895584/embed" 
+                allowfullscreen
+                loading="lazy"
+                sandbox="allow-scripts allow-same-origin allow-popups"
+                title="Incredibox BANANA Game"></iframe>
+    </div>
+
+    <div class="content-section">
+        <h1>Welcome to Incredibox BANANA - Where Music Goes Bananas!</h1>
+        
+        <p>Step into a world where bananas and beats collide! Incredibox BANANA transforms your musical dreams into reality through an exciting mix of rhythm, creativity, and our beloved banana characters. Get ready to create amazing musical compositions in the most appealing way possible!</p>
+
+        <h2>Why Go Bananas with Our Game?</h2>
+        <p>Incredibox BANANA isn't just another rhythm game - it's a musical playground where every banana brings its own unique beat to the mix. Whether you're a music enthusiast or just looking for some fruity fun, our game offers an entertaining way to explore your musical creativity.</p>
+
+        <h2>Game Features:</h2>
+        <ul>
+            <li>🍌 Banana Beat Makers: Each character brings unique sounds and rhythms</li>
+            <li>🎵 Simple Drag-and-Drop: Easy-to-use interface for instant music creation</li>
+            <li>🎶 Real-Time Mixing: Watch and hear your composition come alive</li>
+            <li>🎪 Fun Animations: Enjoy watching your banana crew perform</li>
+            <li>🎨 Creative Freedom: No musical experience needed - just bring your imagination!</li>
+        </ul>
+
+        <h2>How to Play:</h2>
+        <ul>
+            <li>1. Pick Your Performers: Select from our collection of musical banana characters</li>
+            <li>2. Drop the Beat: Place characters on stage to start the music</li>
+            <li>3. Mix It Up: Combine different characters for unique sound combinations</li>
+            <li>4. Groove Along: Watch your banana band perform your custom beats</li>
+            <li>5. Experiment: Try different combinations to discover new sounds</li>
+        </ul>
+
+        <h2>Perfect for Everyone!</h2>
+        <p>Whether you're a music producer in training or just looking for some melodic fun, Incredibox BANANA offers endless entertainment. No musical background required - just bring your creativity and let the banana beats flow!</p>
+
+        <p>Ready to make some seriously fun music? Jump in and start creating your own banana-powered beats right now. Join thousands of players who've discovered the joy of making music with the world's most musical fruit!</p>
+    </div>
+
+    <footer class="footer">
+        <p>© 2024 Incredibox BANANA - Welcome to Play!</p>
+        <p>This website is for entertainment purposes only. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        /* 处理加载状态 */
+        window.addEventListener('load', function() {
+            document.getElementById('loading').style.display = 'none';
+        });
+
+        /* 如果加载时间过长，也隐藏loading */
+        setTimeout(function() {
+            document.getElementById('loading').style.display = 'none';
+        }, 3000);
+    </script>
+</body>
+</html> 
