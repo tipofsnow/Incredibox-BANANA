@@ -151,7 +151,7 @@
             }
         }
 
-        /* 添加loading样式 */
+        /* 优化loading样式 */
         .loading {
             position: fixed;
             top: 0;
@@ -160,6 +160,7 @@
             height: 100%;
             background: #fff7e6;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 2000;
@@ -171,16 +172,87 @@
             animation: monkeyDance 1s infinite ease-in-out;
         }
 
-        @keyframes monkeyDance {
-            0% { transform: scale(1) rotate(0deg); }
-            50% { transform: scale(1.2) rotate(15deg); }
-            100% { transform: scale(1) rotate(0deg); }
+        .loading-text {
+            margin-top: 20px;
+            font-size: 16px;
+            color: #664400;
+        }
+
+        .loading-progress {
+            width: 200px;
+            height: 4px;
+            background: #ffe5b4;
+            border-radius: 2px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        .loading-progress-bar {
+            width: 0%;
+            height: 100%;
+            background: #ffdb4d;
+            transition: width 0.3s ease;
+        }
+
+        .game-container {
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .game-container.loaded {
+            opacity: 1;
+        }
+
+        .game-error {
+            text-align: center;
+            padding: 20px;
+            color: #664400;
+            display: none;
         }
     </style>
+    <!-- 添加DNS预解析和预连接 -->
+    <link rel="dns-prefetch" href="https://turbowarp.org">
+    <link rel="preconnect" href="https://turbowarp.org">
+    
+    <!-- 添加资源提示 -->
+    <link rel="preload" as="iframe" href="https://turbowarp.org/1110895584/embed">
+    
+    <!-- 添加规范链接 -->
+    <link rel="canonical" href="https://incrediboxbanana.online/" />
+    
+    <!-- 添加社交媒体标签 -->
+    <meta property="og:site_name" content="Incredibox BANANA" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://incrediboxbanana.online/" />
+    
+    <!-- 添加Twitter卡片 -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Incredibox BANANA - Creative Music Rhythm Game" />
+    <meta name="twitter:description" content="Create your unique beats in a fun banana-themed musical universe!" />
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-VFXGVE5PCR"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-VFXGVE5PCR');
+</script>
 </head>
 <body>
     <!-- Loading 指示器 -->
-    <div class="loading" id="loading"></div>
+    <div class="loading" id="loading">
+        <div class="loading-text">Loading your musical playground...</div>
+        <div class="loading-progress">
+            <div class="loading-progress-bar" id="progressBar"></div>
+        </div>
+    </div>
+
+    <div class="game-error" id="gameError">
+        <h3>Oops! Taking too long to load?</h3>
+        <p>Try refreshing the page or check your internet connection.</p>
+        <button onclick="location.reload()" style="padding: 10px 20px; background: #ffdb4d; border: none; border-radius: 5px; cursor: pointer;">Reload Game</button>
+    </div>
 
     <div class="header">
         <div class="logo" onclick="scrollToTop()">Incredibox BANANA</div>
@@ -189,10 +261,14 @@
     <div class="game-container">
         <iframe class="game-frame" 
                 src="https://turbowarp.org/1110895584/embed" 
+                width="100%" 
+                height="500"
+                allowtransparency="true"
+                frameborder="0"
+                scrolling="no"
                 allowfullscreen
-                loading="lazy"
-                sandbox="allow-scripts allow-same-origin allow-popups"
-                title="Incredibox BANANA Game"></iframe>
+                loading="eager"
+                importance="high"></iframe>
     </div>
 
     <div class="content-section">
@@ -240,15 +316,59 @@
             });
         }
 
-        /* 处理加载状态 */
-        window.addEventListener('load', function() {
-            document.getElementById('loading').style.display = 'none';
+        let loadingProgress = 0;
+        const progressBar = document.getElementById('progressBar');
+        const gameContainer = document.querySelector('.game-container');
+        const loading = document.getElementById('loading');
+        const gameError = document.getElementById('gameError');
+        const gameFrame = document.querySelector('.game-frame');
+
+        // 模拟加载进度
+        function updateProgress() {
+            if (loadingProgress < 90) {
+                loadingProgress += Math.random() * 10;
+                progressBar.style.width = loadingProgress + '%';
+            }
+        }
+
+        // 定期更新进度
+        const progressInterval = setInterval(updateProgress, 500);
+
+        // 监听iframe加载
+        gameFrame.addEventListener('load', function() {
+            loadingProgress = 100;
+            progressBar.style.width = '100%';
+            
+            setTimeout(() => {
+                loading.style.display = 'none';
+                gameContainer.classList.add('loaded');
+                clearInterval(progressInterval);
+            }, 500);
         });
 
-        /* 如果加载时间过长，也隐藏loading */
-        setTimeout(function() {
-            document.getElementById('loading').style.display = 'none';
-        }, 3000);
+        // 添加超时处理
+        setTimeout(() => {
+            if (loadingProgress < 100) {
+                loading.style.display = 'none';
+                gameError.style.display = 'block';
+            }
+        }, 30000); // 30秒超时
+
+        // 预加载处理
+        window.addEventListener('DOMContentLoaded', function() {
+            gameFrame.setAttribute('loading', 'eager');
+            
+            // 添加错误处理
+            gameFrame.onerror = function() {
+                loading.style.display = 'none';
+                gameError.style.display = 'block';
+            };
+        });
+
+        // 如果页面已经加载完成
+        if (document.readyState === 'complete') {
+            gameContainer.classList.add('loaded');
+        }
     </script>
 </body>
 </html> 
